@@ -3,11 +3,19 @@ from htmlnode import LeafNode  # Import LeafNode
 import os
 import shutil
 from Block_to_HTML import *
+import sys
 
 project_root = os.path.dirname(os.path.dirname(__file__))
-public_dir = os.path.join(project_root, "public")
+public_dir = os.path.join(project_root, "docs")
 static_dir = os.path.join(project_root, "static")
 content_dir = os.path.join(project_root, "content")
+
+
+if len(sys.argv) > 1:
+    basepath = sys.argv[1]
+else:
+    basepath = "/"
+
   
 
 def clear_public_directory():    
@@ -136,8 +144,10 @@ def walk_site_tree(content, public):
                 generate_page(
                     from_path=file_path,
                     template_path = template_path,
-                    dest_path=dest_path
+                    dest_path=dest_path,
+                    basepath=basepath
                 )
+                
             else:
                 # Step 3: For non-markdown files, copy them
                 dest_path = os.path.join(public, rel_path)

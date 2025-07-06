@@ -193,7 +193,7 @@ def extract_title(markdown):
 
 
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, basepath):
     """
     Generate a page from a markdown file using a template.
     """
@@ -209,6 +209,9 @@ def generate_page(from_path, template_path, dest_path):
     
     html_content = template.replace("{{ Content }}", html_node.to_html())
     html_content = html_content.replace("{{ Title }}", extract_title(markdown))
+
+    html_content = html_content.replace('href="/', f'href="{basepath}')
+    html_content = html_content.replace('src="/', f'src="{basepath}')
     
     
     os.makedirs(os.path.dirname(dest_path), exist_ok=True)
